@@ -1,0 +1,48 @@
+.btn{
+float: left;
+display: block;
+width: 25%;
+padding-top: 15px;
+padding-bottom: 15px;
+border: 1px solid white;
+}
+.ON{
+float: left;
+display: block;
+width: 50%;
+padding-top: 15px;
+padding-bottom: 15px;
+border: 1px solid white;
+}
+.OFF{
+float: left;
+display: block;
+width: 50%;
+padding-top: 15px;
+padding-bottom: 15px;
+border: 1px solid white;
+}
+.strl{
+float: left;
+display: block;
+width: 50%;
+padding-top: 15px;
+padding-bottom: 15px;
+border: 1px solid white;    
+}
+.equal{
+float: left;
+display: block;
+width: 100%;
+padding-top: 15px;
+padding-bottom: 15px;
+border: 1px solid white;        
+}
+.backspace{
+float: left;
+display: none;
+width: 50%;
+padding-top: 15px;
+padding-bottom: 15px;
+border: 1px solid white;
+}
