@@ -90,158 +90,169 @@ function Cor() {
 
 /***/ }),
 
-/***/ "./Math/Equal.js":
+/***/ "./Math/logic.js":
 /*!***********************!*\
-  !*** ./Math/Equal.js ***!
+  !*** ./Math/logic.js ***!
   \***********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Equal
+/* harmony export */   "ConversionToArray": () => /* binding */ ConversionToArray,
+/* harmony export */   "priority": () => /* binding */ priority,
+/* harmony export */   "calculate": () => /* binding */ calculate
 /* harmony export */ });
-function Equal() {
-    const calcEqual = $('.equal'),
-        calcDisplay = $('.calculator__display');
+//укомудкмукдщ
+function ConversionToArray(s) {
+    // делает из строки массив состоящий из цифр и операции
+    var calculation = [],
+        current = '';
+    for (var i = 0, ch; ch = s.charAt(i); i++) {
+        if ('^*/+-()'.indexOf(ch) > -1) {
+            if (current == '' && ch == '-') {
+                current = '-';
+            } else { 
+                if(current == '') {
+                    calculation.push(ch);
+                }else {
+                    calculation.push(parseFloat(current), ch);
+                    current = '';
+                }
+            }
+        } else {
+            current += s.charAt(i);
+        }
+    }
+    if (current != '') {
+        calculation.push(parseFloat(current));
+    }
+    console.log(calculation); //
 
-    calcEqual.on('click', function () {
-        calcDisplay.val(eval(calcDisplay.val()));
-    });
-
+    return calculation;
 }
+
+function priority(calc) {
+    //делает приоритет скобками
+    let newArr = [];
+    for (var s = 0; s < calc.length; s++){
+
+        if (calc[s] === '('){
+            let position = calc.indexOf('(');
+            console.log(`position is ${position}`);
+            newArr.push(...calc.splice(calc.indexOf('(') , calc.indexOf(')') - calc.indexOf('(') + 1));
+            console.log(newArr);
+            newArr.pop();
+            newArr.shift();
+            console.log(newArr);
+           console.log('newArr');
+           calc.splice(position,0,(calculate(newArr)));
+           console.log(calc);
+           console.log('END');
+        }
+    }
+    return(calc);
+}
+
+function calculate(calc) {
+    // считает массив получений из строки и дает результат 
+    var opt = [{'^': (a, b) => Math.pow(a, b)},
+               {'*': (a, b) => a * b, '/': (a, b) => a / b},
+               {'+': (a, b) => a + b, '-': (a, b) => a - b}],
+        newCalc = [],
+        operation;
+        let restart = ['Ошибка','Введены неккоректные значения, повторите'];
+
+    for (var i = 0; i < opt.length; i++) {
+        for (var j = 0; j < calc.length; j++) {
+            if (opt[i][calc[j]]) {
+                operation = opt[i][calc[j]];
+            } else if (operation) {
+                if(calc[j-1] === "/") {
+                    if(calc[j] === 0) {
+                        return restart;
+                    }
+                } 
+                newCalc[newCalc.length - 1] = 
+                    operation(newCalc[newCalc.length - 1], calc[j]);
+                operation = null;
+            } else {
+                newCalc.push(calc[j]);
+            }
+   //         console.log(newCalc);
+        }
+        calc = newCalc;
+        newCalc = [];
+    }
+    if (calc.length > 1) {
+        console.log('Невозможно выполнить');
+        return restart[1];
+    } else {
+        return calc[0];
+    }
+}
+
 
 /***/ }),
 
-/***/ "./Math/X2.js":
-/*!********************!*\
-  !*** ./Math/X2.js ***!
-  \********************/
+/***/ "./Math/trigonometry.js":
+/*!******************************!*\
+  !*** ./Math/trigonometry.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ X2
+/* harmony export */   "TrigonometryOperations": () => /* binding */ TrigonometryOperations
 /* harmony export */ });
-function X2() {
-    const calcX2 = $('.x2'),
-        calcDisplay = $('.calculator__display');
+const calcDisplay = $('.calculator__display');
+function TrigonometryOperations () {
+  function restart(){
+   calcDisplay.val('Перезагрузка')
+   location.reload();
+  }
+  const calcSin = $('.sin'),
+   calcCos = $('.cos'),
+   calcTg = $('.tg'),
+   calcCtg = $('.ctg');
 
-    calcX2.on('click', function () {
-        calcDisplay.val(Math.pow(calcDisplay.val(), 2));
-    });
-
-
-}
-
-/***/ }),
-
-/***/ "./Math/X3.js":
-/*!********************!*\
-  !*** ./Math/X3.js ***!
-  \********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ X3
-/* harmony export */ });
-function X3() {
-    const calcX3 = $('.x3'),
-        calcDisplay = $('.calculator__display');
-
-    calcX3.on('click', function () {
-        calcDisplay.val(Math.pow(calcDisplay.val(), 3));
-    });
-
-}
-
-/***/ }),
-
-/***/ "./Math/cos.js":
-/*!*********************!*\
-  !*** ./Math/cos.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Cos
-/* harmony export */ });
-function Cos() {
-  const calcCos = $('.cos'),
-    calcDisplay = $('.calculator__display');
-
-  calcCos.on('click', function () {
-    calcDisplay.val(Math.cos((calcDisplay.val()) * Math.PI / 180));
-  });
-
-}
-
-/***/ }),
-
-/***/ "./Math/ctg.js":
-/*!*********************!*\
-  !*** ./Math/ctg.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Ctg
-/* harmony export */ });
-function Ctg() {
-    const calcCtg = $('.ctg'),
-        calcDisplay = $('.calculator__display');
-
-    calcCtg.on('click', function () {
-        calcDisplay.val(Math.cos(calcDisplay.val()) / Math.sin(calcDisplay.val()));
-    });
-}
-
-/***/ }),
-
-/***/ "./Math/sin.js":
-/*!*********************!*\
-  !*** ./Math/sin.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Sin
-/* harmony export */ });
-function Sin() {
-    const calcSin = $('.sin'),
-        calcDisplay = $('.calculator__display');
-
+   if (calcDisplay.val() === '') {
     calcSin.on('click', function () {
-        alcDisplay.val(Math.sin((calcDisplay.val()) * Math.PI / 180));
+      calcDisplay.val('Введите значение');
+      setTimeout(restart,1000);
     });
+    calcCos.on('click', function () {
+      calcDisplay.val('Введите значение');
+      setTimeout(restart,1000);
+    }); 
+    calcTg.on('click', function () {
+      calcDisplay.val('Введите значение');
+      setTimeout(restart,1000);
 
+    });
+    calcCtg.on('click', function () {
+      calcDisplay.val('Введите значение');
+      setTimeout(restart,1000);
+    });
+   } else{
+ calcSin.on('click', function () {
+  calcDisplay.val(Math.sin((calcDisplay.val()) * Math.PI / 180));
+});
+
+calcCos.on('click', function () {
+  calcDisplay.val(Math.cos((calcDisplay.val()) * Math.PI / 180));
+});
+
+calcTg.on('click', function () {
+  calcDisplay.val(Math.sin(calcDisplay.val()) / Math.cos(calcDisplay.val()));
+});
+
+calcCtg.on('click', function () {
+  calcDisplay.val(Math.cos(calcDisplay.val()) / Math.sin(calcDisplay.val()));
+});
 }
-
-/***/ }),
-
-/***/ "./Math/tg.js":
-/*!********************!*\
-  !*** ./Math/tg.js ***!
-  \********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Tg
-/* harmony export */ });
-function Tg() {
-  const calcTg = $('.tg'),
-    calcDisplay = $('.calculator__display');
-
-  calcTg.on('click', function () {
-    calcDisplay.val(Math.sin(calcDisplay.val()) / Math.cos(calcDisplay.val()));
-  });
-
-
 }
+//всцыв
+
 
 /***/ }),
 
@@ -256,18 +267,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Math_BackspaceOff__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Math/BackspaceOff */ "./Math/BackspaceOff.js");
 /* harmony import */ var _Math_Clear__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Math/Clear */ "./Math/Clear.js");
 /* harmony import */ var _Math_Cor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Math/Cor */ "./Math/Cor.js");
-/* harmony import */ var _Math_cos__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Math/cos */ "./Math/cos.js");
-/* harmony import */ var _Math_ctg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Math/ctg */ "./Math/ctg.js");
-/* harmony import */ var _Math_Equal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Math/Equal */ "./Math/Equal.js");
-/* harmony import */ var _Math_sin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Math/sin */ "./Math/sin.js");
-/* harmony import */ var _Math_tg__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Math/tg */ "./Math/tg.js");
-/* harmony import */ var _Math_X2__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Math/X2 */ "./Math/X2.js");
-/* harmony import */ var _Math_X3__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Math/X3 */ "./Math/X3.js");
-
-
-
-
-
+/* harmony import */ var _Math_logic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Math/logic */ "./Math/logic.js");
+/* harmony import */ var _Math_trigonometry__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Math/trigonometry */ "./Math/trigonometry.js");
 
 
 
@@ -277,67 +278,76 @@ __webpack_require__.r(__webpack_exports__);
 
 $(document).ready(function () {
 
-
-
     const calcDisplay = $('.calculator__display'),
+        calcEqual = $('.equal'),
+        calcX2 = $('.x2'),
+        calcX3 = $('.x3'),
         calcButton = $('.button'),
         calcON = $('.ON'),
         calcOFF = $('.OFF');
 
-
-        function calcActive() {
-            (0,_Math_BackspaceON__WEBPACK_IMPORTED_MODULE_0__.default)();
-            (0,_Math_Clear__WEBPACK_IMPORTED_MODULE_2__.default)();
-            (0,_Math_Cor__WEBPACK_IMPORTED_MODULE_3__.default)();
-            (0,_Math_cos__WEBPACK_IMPORTED_MODULE_4__.default)();
-            (0,_Math_ctg__WEBPACK_IMPORTED_MODULE_5__.default)();
-            (0,_Math_Equal__WEBPACK_IMPORTED_MODULE_6__.default)();
-            (0,_Math_sin__WEBPACK_IMPORTED_MODULE_7__.default)();
-            (0,_Math_tg__WEBPACK_IMPORTED_MODULE_8__.default)();
-            (0,_Math_X2__WEBPACK_IMPORTED_MODULE_9__.default)();
-            (0,_Math_X3__WEBPACK_IMPORTED_MODULE_10__.default)();
-            calcON.removeClass("display", "block");
-            calcON.css("display", "none");
-        
-            calcButton.on('click', function () {
-                calcDisplay.val(calcDisplay.val() + $(this).attr('value'));
-            });
-        }
-
-
-        function calcOffed() {
-            (0,_Math_BackspaceOff__WEBPACK_IMPORTED_MODULE_1__.default)();
-            calcON.removeClass("display", "none");
-            calcON.css("display", "block");
-            calcButton.on('click', function () {
-                calcDisplay.val('');
-            });
-        }
-
-
+    function rest () {
+        location.reload();
+    }
 
     function calcStart() {
         calcON.on('click', function () {
+            console.log(calcDisplay.val());
             calcON.addClass("active");
-            calcActive();
+            calcON.removeClass("display", "block");
+            calcON.css("display", "none");
+
+            calcButton.on('click', function () {
+                calcDisplay.val(calcDisplay.val() + $(this).attr('value'));
+            });
+
+            (0,_Math_BackspaceON__WEBPACK_IMPORTED_MODULE_0__.default)();
+            (0,_Math_Clear__WEBPACK_IMPORTED_MODULE_2__.default)();
+            (0,_Math_Cor__WEBPACK_IMPORTED_MODULE_3__.default)();
+            (0,_Math_trigonometry__WEBPACK_IMPORTED_MODULE_5__.TrigonometryOperations)();
+            triginometry();
         });
     }
 
     function calcEnd() {
         calcOFF.on('click', function () {
             calcON.removeClass("active");
-            calcOffed();
+            calcON.removeClass("display", "none");
+            calcON.css("display", "block");
+            calcButton.on('click', function () {
+                calcDisplay.val('Выключение');
+            });
+            (0,_Math_BackspaceOff__WEBPACK_IMPORTED_MODULE_1__.default)();
+            calcDisplay.val('Выключение');
+            setTimeout (rest,1000);
         });
     }
+
+     function equal (){
+        calcEqual.on('click', function () {
+            console.log(calcDisplay.val());
+
+         if ((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.calculate)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.priority)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.ConversionToArray)(calcDisplay.val()))) === 'Ошибка' || (0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.calculate)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.priority)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.ConversionToArray)(calcDisplay.val()))) === 'Введены неккоректные значения, повторите' ) {
+            calcDisplay.val((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.calculate)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.priority)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.ConversionToArray)(calcDisplay.val()))));
+            setTimeout(rest, 1000);
+         } else {
+            calcDisplay.val((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.calculate)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.priority)((0,_Math_logic__WEBPACK_IMPORTED_MODULE_4__.ConversionToArray)(calcDisplay.val()))).toFixed(2));
+         }
+        });
+    }
+    function triginometry() {
+        calcX2.on('click', function () {
+            calcDisplay.val(calcDisplay.val() + '^2');
+        });
+        calcX3.on('click', function () {
+            calcDisplay.val(calcDisplay.val() + '^3');
+        });
+    }
+
     calcStart();
     calcEnd();
-
+    equal();
 });
-
-
-
-
-
 
 
 /***/ })

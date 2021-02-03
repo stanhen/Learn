@@ -1,16 +1,33 @@
 {
   "name": "calk",
   "version": "1.0.0",
-  "description": "",
+  "description": "Jest intro",
   "main": "index.js",
   "dependencies": {
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "devDependencies": {
+    "jest": "^26.6.3"
   },
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Ilya",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stanhen/Learn.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "jest",
+    "unti",
+    "testing"
+  ],
+  "bugs": {
+    "url": "https://github.com/stanhen/Learn/issues"
+  },
+  "homepage": "https://github.com/stanhen/Learn#readme"
 }
